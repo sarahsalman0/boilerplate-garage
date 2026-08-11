@@ -1,10 +1,6 @@
 {
   "projects": {
-<<<<<<< HEAD
-    "default": "capstone-task1-run-208b8"
-=======
     "default": "REPLACE_WITH_FIREBASE_PROJECT_ID"
->>>>>>> team/main
   },
   "targets": {},
   "etags": {}
