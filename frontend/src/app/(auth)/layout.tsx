@@ -6,6 +6,7 @@ export const metadata: Metadata = {
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
+<<<<<<< HEAD
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#070B12] px-4 py-12">
       {/* Signature: a faint circuit/qubit lattice covering the void — the
           one bold element in this design, kept quiet everywhere else. */}
@@ -57,6 +58,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {children}
         </div>
       </div>
+=======
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
+      <div className="w-full max-w-sm">{children}</div>
+>>>>>>> team/main
     </div>
   )
 }

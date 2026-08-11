@@ -23,7 +23,11 @@ export function proxy(req: NextRequest) {
   }
 
   if (isAuthRoute && isAuthenticated) {
+<<<<<<< HEAD
     return NextResponse.redirect(new URL('/team', req.url))
+=======
+    return NextResponse.redirect(new URL('/dashboard', req.url))
+>>>>>>> team/main
   }
 
   return NextResponse.next()

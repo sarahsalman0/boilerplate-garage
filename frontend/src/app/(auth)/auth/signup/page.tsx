@@ -55,14 +55,23 @@ export default function SignUpPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
+<<<<<<< HEAD
         <h1 className="text-2xl font-semibold tracking-tight text-[#E7EEF5]">Create account</h1>
         <p className="text-sm text-[#8697A8]">Get access to your team&apos;s risk dashboard</p>
+=======
+        <h1 className="text-2xl font-bold tracking-tight">Create account</h1>
+        <p className="text-sm text-zinc-500">Get started for free</p>
+>>>>>>> team/main
       </div>
 
       <button
         type="button"
         onClick={handleGoogleSignIn}
+<<<<<<< HEAD
         className="flex w-full items-center justify-center gap-3 rounded-md border border-[#1C2836] bg-[#121A26] px-4 py-2.5 text-sm font-medium text-[#E7EEF5] transition-colors hover:bg-[#17202C]"
+=======
+        className="flex w-full items-center justify-center gap-3 rounded-md border border-zinc-300 bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+>>>>>>> team/main
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path
@@ -87,19 +96,30 @@ export default function SignUpPage() {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
+<<<<<<< HEAD
           <span className="w-full border-t border-[#1C2836]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-[#0D131C] px-2 font-mono tracking-widest text-[#4B5768]">or</span>
+=======
+          <span className="w-full border-t border-zinc-200 dark:border-zinc-700" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-zinc-50 px-2 text-zinc-400 dark:bg-zinc-950">or</span>
+>>>>>>> team/main
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
+<<<<<<< HEAD
           <label
             htmlFor="displayName"
             className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
           >
+=======
+          <label htmlFor="displayName" className="text-sm font-medium">
+>>>>>>> team/main
             Name
           </label>
           <input
@@ -108,22 +128,34 @@ export default function SignUpPage() {
             autoComplete="name"
             aria-invalid={!!errors.displayName}
             aria-describedby={errors.displayName ? 'display-name-error' : undefined}
+<<<<<<< HEAD
             className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+=======
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
+>>>>>>> team/main
             placeholder="Your full name"
             {...register('displayName')}
           />
           {errors.displayName && (
+<<<<<<< HEAD
             <p id="display-name-error" className="text-xs text-[#F2555B]" role="alert">
+=======
+            <p id="display-name-error" className="text-xs text-red-500" role="alert">
+>>>>>>> team/main
               {errors.displayName.message}
             </p>
           )}
         </div>
 
         <div className="space-y-1.5">
+<<<<<<< HEAD
           <label
             htmlFor="email"
             className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
           >
+=======
+          <label htmlFor="email" className="text-sm font-medium">
+>>>>>>> team/main
             Email
           </label>
           <input
@@ -132,22 +164,34 @@ export default function SignUpPage() {
             autoComplete="email"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? 'email-error' : undefined}
+<<<<<<< HEAD
             className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+=======
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
+>>>>>>> team/main
             placeholder="you@example.com"
             {...register('email')}
           />
           {errors.email && (
+<<<<<<< HEAD
             <p id="email-error" className="text-xs text-[#F2555B]" role="alert">
+=======
+            <p id="email-error" className="text-xs text-red-500" role="alert">
+>>>>>>> team/main
               {errors.email.message}
             </p>
           )}
         </div>
 
         <div className="space-y-1.5">
+<<<<<<< HEAD
           <label
             htmlFor="password"
             className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
           >
+=======
+          <label htmlFor="password" className="text-sm font-medium">
+>>>>>>> team/main
             Password
           </label>
           <input
@@ -156,22 +200,34 @@ export default function SignUpPage() {
             autoComplete="new-password"
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
+<<<<<<< HEAD
             className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+=======
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
+>>>>>>> team/main
             placeholder="Min. 8 characters, 1 uppercase, 1 number"
             {...register('password')}
           />
           {errors.password && (
+<<<<<<< HEAD
             <p id="password-error" className="text-xs text-[#F2555B]" role="alert">
+=======
+            <p id="password-error" className="text-xs text-red-500" role="alert">
+>>>>>>> team/main
               {errors.password.message}
             </p>
           )}
         </div>
 
         <div className="space-y-1.5">
+<<<<<<< HEAD
           <label
             htmlFor="confirmPassword"
             className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
           >
+=======
+          <label htmlFor="confirmPassword" className="text-sm font-medium">
+>>>>>>> team/main
             Confirm password
           </label>
           <input
@@ -180,12 +236,20 @@ export default function SignUpPage() {
             autoComplete="new-password"
             aria-invalid={!!errors.confirmPassword}
             aria-describedby={errors.confirmPassword ? 'confirm-password-error' : undefined}
+<<<<<<< HEAD
             className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+=======
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm placeholder:text-zinc-400 focus:ring-2 focus:ring-zinc-500 focus:outline-none aria-invalid:border-red-500 dark:border-zinc-700 dark:bg-zinc-900"
+>>>>>>> team/main
             placeholder="••••••••"
             {...register('confirmPassword')}
           />
           {errors.confirmPassword && (
+<<<<<<< HEAD
             <p id="confirm-password-error" className="text-xs text-[#F2555B]" role="alert">
+=======
+            <p id="confirm-password-error" className="text-xs text-red-500" role="alert">
+>>>>>>> team/main
               {errors.confirmPassword.message}
             </p>
           )}
@@ -194,15 +258,28 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={isSubmitting}
+<<<<<<< HEAD
           className="w-full rounded-md bg-[#4FD1C5] px-4 py-2.5 text-sm font-semibold text-[#06111A] transition-colors hover:bg-[#6EE0D6] disabled:cursor-not-allowed disabled:opacity-50"
+=======
+          className="w-full rounded-md bg-black px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+>>>>>>> team/main
         >
           {isSubmitting ? 'Creating account…' : 'Create account'}
         </button>
       </form>
 
+<<<<<<< HEAD
       <p className="text-center text-sm text-[#8697A8]">
         Already have an account?{' '}
         <Link href="/auth/signin" className="font-medium text-[#4FD1C5] hover:underline">
+=======
+      <p className="text-center text-sm text-zinc-500">
+        Already have an account?{' '}
+        <Link
+          href="/auth/signin"
+          className="font-medium text-zinc-900 hover:underline dark:text-white"
+        >
+>>>>>>> team/main
           Sign in
         </Link>
       </p>
