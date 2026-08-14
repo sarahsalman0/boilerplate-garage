@@ -64,15 +64,14 @@ export default function SignInPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-[#E7EEF5]">Sign in</h1>
-        <p className="text-sm text-[#8697A8]">Access your team&apos;s risk dashboard</p>
+      <h1 className="text-2xl font-semibold tracking-tight text-[#F1EDFB]">Sign in</h1>
+      <p className="text-sm text-[#948FAF]">Access your team&apos;s risk dashboard</p>
       </div>
 
       <button
         type="button"
         onClick={handleGoogleSignIn}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#1C2836] bg-[#121A26] px-4 py-2.5 text-sm font-medium text-[#E7EEF5] transition-colors hover:bg-[#17202C]"
-      >
+        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#211E2C] bg-[#14121C] px-4 py-2.5 text-sm font-medium text-[#F1EDFB] transition-colors hover:bg-[#1B1826]">
         <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -96,10 +95,10 @@ export default function SignInPage() {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-[#1C2836]" />
+        <span className="w-full border-t border-[#211E2C]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-[#0D131C] px-2 font-mono tracking-widest text-[#4B5768]">or</span>
+        <span className="bg-[#0F0D16] px-2 font-mono tracking-widest text-[#4B4760]">or</span>
         </div>
       </div>
 
@@ -107,7 +106,7 @@ export default function SignInPage() {
         <div className="space-y-1.5">
           <label
             htmlFor="email"
-            className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
+            className="font-mono text-[11px] tracking-widest text-[#6F6B87] uppercase"
           >
             Email
           </label>
@@ -117,7 +116,7 @@ export default function SignInPage() {
             autoComplete="email"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? 'email-error' : undefined}
-            className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+            className="w-full rounded-md border border-[#211E2C] bg-[#0A0910] px-3 py-2 text-sm text-[#F1EDFB] placeholder:text-[#4B4760] focus:border-[#8B7CF6]/60 focus:ring-2 focus:ring-[#8B7CF6]/30 focus:outline-none aria-invalid:border-[#F2555B]"
             placeholder="you@example.com"
             {...register('email')}
           />
@@ -132,7 +131,7 @@ export default function SignInPage() {
           <div className="flex items-center justify-between">
             <label
               htmlFor="password"
-              className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
+              className="font-mono text-[11px] tracking-widest text-[#6F6B87] uppercase"
             >
               Password
             </label>
@@ -143,7 +142,7 @@ export default function SignInPage() {
             autoComplete="current-password"
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
-            className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+            className="w-full rounded-md border border-[#211E2C] bg-[#0A0910] px-3 py-2 text-sm text-[#F1EDFB] placeholder:text-[#4B4760] focus:border-[#8B7CF6]/60 focus:ring-2 focus:ring-[#8B7CF6]/30 focus:outline-none aria-invalid:border-[#F2555B]"
             placeholder="••••••••"
             {...register('password')}
           />
@@ -157,15 +156,15 @@ export default function SignInPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-md bg-[#4FD1C5] px-4 py-2.5 text-sm font-semibold text-[#06111A] transition-colors hover:bg-[#6EE0D6] disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-md bg-[#A78BFA] px-4 py-2.5 text-sm font-semibold text-[#1B1330] transition-colors hover:bg-[#B7A6FF] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
 
-      <p className="text-center text-sm text-[#8697A8]">
+      <p className="text-center text-sm text-[#948FAF]">
         Don&apos;t have an account?{' '}
-        <Link href="/auth/signup" className="font-medium text-[#4FD1C5] hover:underline">
+        <Link href="/auth/signup" className="font-medium text-[#8B7CF6] hover:underline">
           Create one
         </Link>
       </p>
