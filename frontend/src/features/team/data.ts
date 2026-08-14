@@ -1,12 +1,12 @@
 import type { TeamInfo } from './types'
 
 /**
- * Team 87 — IBM Cyber Security - Quantum Risks
- * Project: Quantum Risk Readiness Platform
+ Team 87 - IBM Cyber Security - Quantum Risks
+ Project: Crack the Channel - Interactive QKD Learning Platform
  */
 export const team: TeamInfo = {
-  teamName: 'Team 87 — IBM Cyber Security - Quantum Risks',
-  projectName: 'Quantum Risk Readiness Platform',
+  teamName: 'Team 87 - IBM Cyber Security - Quantum Risks',
+  projectName: 'Crack the Channel - Interactive QKD Learning Platform',
   members: [
     {
       id: 'thomas-clowes',
