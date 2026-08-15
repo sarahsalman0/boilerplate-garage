@@ -31,7 +31,8 @@ export function TeamMemberCard({ member }: { member: TeamMember }) {
   }
 
   return (
-    <div className="rounded-lg border border-[#211E2C] bg-[#0F0D16] p-6">
+    <div data-testid={`memberCard${member.id}`}
+      className="rounded-lg border border-[#211E2C] bg-[#0F0D16] p-6">
       <div className="flex items-start gap-4">
         {hasUsablePhoto ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -42,23 +43,28 @@ export function TeamMemberCard({ member }: { member: TeamMember }) {
             className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-[#8B7CF6]/30"
           />
         ) : (
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#211E2C] bg-[#14121C] text-sm font-semibold text-[#A78BFA]">
+          <div data-testid="fallbackImg"
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#211E2C] bg-[#14121C] text-sm font-semibold text-[#A78BFA]">
             {deriveInitials(member.name)}
           </div>
         )}
 
         <div className="min-w-0 flex-1">
-          <p className="leading-snug font-semibold break-words text-[#F1EDFB]">{member.name}</p>
-          <p className="mt-0.5 font-mono text-[11px] tracking-widest break-words text-[#6F6B87] uppercase">
+          <p data-testid="memberName"
+            className="leading-snug font-semibold break-words text-[#F1EDFB]">{member.name}</p>
+          <p data-testid="memberRole"
+            className="mt-0.5 font-mono text-[11px] tracking-widest break-words text-[#6F6B87] uppercase">
             {member.role}
           </p>
         </div>
       </div>
 
-      <p className="mt-4 text-sm break-words text-[#948FAF]">{visibleBlurb}</p>
+      <p data-testid="memberBlurb"
+        className="mt-4 text-sm break-words text-[#948FAF]">{visibleBlurb}</p>
       {blurbNeedsTruncation && (
         <button
           type="button"
+          data-testid="truncator"
           onClick={() => setIsExpanded((current) => !current)}
           className="mt-2 text-sm font-medium text-[#8B7CF6] hover:underline"
         >
