@@ -1,15 +1,19 @@
 import { test, expect } from '@playwright/test';
-const deployedURL = "http://localhost:3000";
+const deployedURL = process.env.TEST_URL;
 
 test('happy path: valid login redirects to fully rendered team page', async ({ page }) => {
-    await page.goto(`${deployedURL}/auth/signin`);
+    
+    await page.goto(deployedURL);
 
+    await page.getByText('Sign In').click();
+    await page.waitForURL(/\/auth\/signin/);
 
-   
+    
     //simulates valid login
     await page.getByTestId('email').fill(process.env.TEST_EMAIL);
     await page.getByTestId('password').fill(process.env.TEST_PASSWORD);
     await page.getByTestId('loginBtn').click();
+    
 
     //ensures redirect to team page occurs
     await page.waitForURL(/\/team/);
