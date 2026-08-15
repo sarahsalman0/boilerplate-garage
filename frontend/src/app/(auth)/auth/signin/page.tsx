@@ -10,8 +10,12 @@ import { useAuth } from '@/hooks/useAuth'
 import { loginSchema, type LoginInput } from '@/lib/validations/auth'
 import { FullPageSpinner } from '@/components/shared/LoadingSpinner'
 
+// AC1: a signed-in user has nothing to do on this route — send them
+// straight to the team page instead of showing the form again.
+const POST_LOGIN_ROUTE = '/team'
+
 export default function SignInPage() {
-  const router = useRouter()
+  const navigate = useRouter()
   const { user, loading, signInWithEmail, signInWithGoogle } = useAuth()
 
   const {
@@ -22,40 +26,48 @@ export default function SignInPage() {
     resolver: zodResolver(loginSchema),
   })
 
-  useEffect(() => {
-    if (!loading && user) {
-      router.replace('/team')
-    }
-  }, [loading, user, router])
+  const alreadySignedIn = !loading && Boolean(user)
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('verification') === 'sent') {
+    if (alreadySignedIn) {
+      navigate.replace(POST_LOGIN_ROUTE)
+    }
+  }, [alreadySignedIn, navigate])
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+    const cameFromVerificationEmail = searchParams.get('verification') === 'sent'
+    if (cameFromVerificationEmail) {
       toast.success('Verification email sent. Verify your email, then sign in.')
     }
   }, [])
 
   if (loading) return <FullPageSpinner />
 
-  const onSubmit = async (data: LoginInput) => {
+  // AC2 (part 1): credential failures never throw past this boundary —
+  // existing validation/error copy is preserved, only surfaced as a toast.
+  function describeSignInFailure(error: unknown): string {
+    const unverified = error instanceof Error && error.message.includes('email-not-verified')
+    return unverified ? 'Please verify your email before signing in.' : 'Invalid email or password'
+  }
+
+  const submitCredentials = async (data: LoginInput) => {
     try {
       await signInWithEmail(data.email, data.password)
       toast.success('Signed in successfully')
-      router.replace('/team')
-      router.refresh()
+      // AC1: successful email/password sign-in lands on the team page.
+      navigate.replace(POST_LOGIN_ROUTE)
+      navigate.refresh()
     } catch (error: unknown) {
-      if (error instanceof Error && error.message.includes('email-not-verified')) {
-        toast.error('Please verify your email before signing in.')
-      } else {
-        toast.error('Invalid email or password')
-      }
+      toast.error(describeSignInFailure(error))
     }
   }
 
-  const handleGoogleSignIn = async () => {
+  const continueWithGoogle = async () => {
     try {
       await signInWithGoogle()
-      router.replace('/team')
+      // AC1: same redirect target regardless of which sign-in method succeeded.
+      navigate.replace(POST_LOGIN_ROUTE)
     } catch {
       toast.error('Google sign-in failed. Please try again.')
     }
@@ -64,14 +76,15 @@ export default function SignInPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-      <h1 className="text-2xl font-semibold tracking-tight text-[#F1EDFB]">Sign in</h1>
-      <p className="text-sm text-[#948FAF]">Access your team&apos;s risk dashboard</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-[#F1EDFB]">Sign in</h1>
+        <p className="text-sm text-[#948FAF]">Access your team&apos;s risk dashboard</p>
       </div>
 
       <button
         type="button"
-        onClick={handleGoogleSignIn}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#211E2C] bg-[#14121C] px-4 py-2.5 text-sm font-medium text-[#F1EDFB] transition-colors hover:bg-[#1B1826]">
+        onClick={continueWithGoogle}
+        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#211E2C] bg-[#14121C] px-4 py-2.5 text-sm font-medium text-[#F1EDFB] transition-colors hover:bg-[#1B1826]"
+      >
         <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -95,14 +108,14 @@ export default function SignInPage() {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-        <span className="w-full border-t border-[#211E2C]" />
+          <span className="w-full border-t border-[#211E2C]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-        <span className="bg-[#0F0D16] px-2 font-mono tracking-widest text-[#4B4760]">or</span>
+          <span className="bg-[#0F0D16] px-2 font-mono tracking-widest text-[#4B4760]">or</span>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(submitCredentials)} className="space-y-4">
         <div className="space-y-1.5">
           <label
             htmlFor="email"
