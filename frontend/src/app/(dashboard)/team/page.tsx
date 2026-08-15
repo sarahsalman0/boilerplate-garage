@@ -6,57 +6,72 @@ export const metadata: Metadata = {
   title: 'Team',
 }
 
+// AC3: renders the team name, the project name directly beneath it, and
+// one card per member (photo/fallback, name, role, blurb — see AC4 in
+// TeamMemberCard). EC5: the grid below goes 1 -> 2 -> 3 columns as the
+// viewport widens, so the page stays usable on narrow screens too.
 export default function TeamPage() {
+  const { teamName, projectName, members } = team
+
   return (
-    <div className="relative overflow-hidden rounded-xl border border-[#1C2836] bg-[#070B12] p-6 sm:p-8">
-      {/* Signature: same faint circuit/qubit lattice as the login pages,
-          contained to this panel rather than the full viewport. */}
+    <div className="relative overflow-hidden rounded-xl border border-[#211E2C] bg-[#07060B] p-6 sm:p-8">
+      {/* Decorative background: the same atom-orbital ring motif used on
+          the auth screens, scoped to this panel instead of the full page. */}
       <svg
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.09]"
       >
         <defs>
-          <pattern id="teamLattice" width="56" height="56" patternUnits="userSpaceOnUse">
-            <circle cx="4" cy="4" r="1.6" fill="#4FD1C5" />
-            <path d="M4 4 L56 4 M4 4 L4 56 M4 4 L60 60" stroke="#4FD1C5" strokeWidth="0.6" />
+          <pattern id="rosterBackdropGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <circle cx="32" cy="32" r="14" fill="none" stroke="#8B7CF6" strokeWidth="0.75" />
+            <circle cx="32" cy="32" r="2" fill="#8B7CF6" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#teamLattice)" />
+        <rect width="100%" height="100%" fill="url(#rosterBackdropGrid)" />
       </svg>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#4FD1C5]/10 blur-[100px]"
+        className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#7C3AED]/10 blur-[100px]"
       />
 
       <div className="relative space-y-8">
-        <div className="flex flex-col items-center gap-3 text-center sm:items-start sm:text-left">
+        <div className="flex flex-col items-start gap-3 text-left">
           <div className="flex items-center gap-3">
             <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true" className="shrink-0">
-              <path
-                d="M20 2 L35.3 11 V29 L20 38 L4.7 29 V11 Z"
+              <circle
+                cx="20"
+                cy="20"
+                r="14"
                 fill="none"
-                stroke="#4FD1C5"
-                strokeOpacity="0.5"
+                stroke="#8B7CF6"
+                strokeOpacity="0.35"
                 strokeWidth="1.2"
               />
-              <circle cx="20" cy="20" r="3" fill="#4FD1C5" />
+              <circle
+                cx="20"
+                cy="20"
+                r="8"
+                fill="none"
+                stroke="#A78BFA"
+                strokeOpacity="0.75"
+                strokeWidth="1.2"
+              />
+              <circle cx="20" cy="20" r="2.5" fill="#C4B5FD" />
             </svg>
-            <p className="font-mono text-[11px] tracking-[0.25em] text-[#6B7A8D] uppercase">
+            <p className="font-mono text-[11px] tracking-[0.25em] text-[#6F6B87] uppercase">
               Team Roster
             </p>
           </div>
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-[#E7EEF5]">
-              {team.teamName}
-            </h1>
-            <p className="mt-1 text-sm text-[#8697A8]">{team.projectName}</p>
+            {/* AC3: team name, then project name directly underneath it. */}
+            <h1 className="text-2xl font-semibold tracking-tight text-[#F1EDFB]">{teamName}</h1>
+            <p className="mt-1 text-sm text-[#948FAF]">{projectName}</p>
           </div>
-          <div className="h-px w-16 bg-gradient-to-r from-[#4FD1C5]/70 to-transparent sm:mx-0" />
+          <div className="h-px w-16 bg-gradient-to-r from-[#8B7CF6]/70 to-transparent" />
         </div>
 
-        {/* EC5: 1 column on small screens, up to 3 on large. */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {team.members.map((member) => (
+          {members.map((member) => (
             <TeamMemberCard key={member.id} member={member} />
           ))}
         </div>

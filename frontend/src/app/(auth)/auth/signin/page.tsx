@@ -10,8 +10,12 @@ import { useAuth } from '@/hooks/useAuth'
 import { loginSchema, type LoginInput } from '@/lib/validations/auth'
 import { FullPageSpinner } from '@/components/shared/LoadingSpinner'
 
+// AC1: a signed-in user has nothing to do on this route — send them
+// straight to the team page instead of showing the form again.
+const POST_LOGIN_ROUTE = '/team'
+
 export default function SignInPage() {
-  const router = useRouter()
+  const navigate = useRouter()
   const { user, loading, signInWithEmail, signInWithGoogle } = useAuth()
 
   const {
@@ -22,40 +26,48 @@ export default function SignInPage() {
     resolver: zodResolver(loginSchema),
   })
 
-  useEffect(() => {
-    if (!loading && user) {
-      router.replace('/team')
-    }
-  }, [loading, user, router])
+  const alreadySignedIn = !loading && Boolean(user)
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('verification') === 'sent') {
+    if (alreadySignedIn) {
+      navigate.replace(POST_LOGIN_ROUTE)
+    }
+  }, [alreadySignedIn, navigate])
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+    const cameFromVerificationEmail = searchParams.get('verification') === 'sent'
+    if (cameFromVerificationEmail) {
       toast.success('Verification email sent. Verify your email, then sign in.')
     }
   }, [])
 
   if (loading) return <FullPageSpinner />
 
-  const onSubmit = async (data: LoginInput) => {
+  // AC2 (part 1): credential failures never throw past this boundary —
+  // existing validation/error copy is preserved, only surfaced as a toast.
+  function describeSignInFailure(error: unknown): string {
+    const unverified = error instanceof Error && error.message.includes('email-not-verified')
+    return unverified ? 'Please verify your email before signing in.' : 'Invalid email or password'
+  }
+
+  const submitCredentials = async (data: LoginInput) => {
     try {
       await signInWithEmail(data.email, data.password)
       toast.success('Signed in successfully')
-      router.replace('/team')
-      router.refresh()
+      // AC1: successful email/password sign-in lands on the team page.
+      navigate.replace(POST_LOGIN_ROUTE)
+      navigate.refresh()
     } catch (error: unknown) {
-      if (error instanceof Error && error.message.includes('email-not-verified')) {
-        toast.error('Please verify your email before signing in.')
-      } else {
-        toast.error('Invalid email or password')
-      }
+      toast.error(describeSignInFailure(error))
     }
   }
 
-  const handleGoogleSignIn = async () => {
+  const continueWithGoogle = async () => {
     try {
       await signInWithGoogle()
-      router.replace('/team')
+      // AC1: same redirect target regardless of which sign-in method succeeded.
+      navigate.replace(POST_LOGIN_ROUTE)
     } catch {
       toast.error('Google sign-in failed. Please try again.')
     }
@@ -64,14 +76,14 @@ export default function SignInPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-[#E7EEF5]">Sign in</h1>
-        <p className="text-sm text-[#8697A8]">Access your team&apos;s risk dashboard</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-[#F1EDFB]">Sign in</h1>
+        <p className="text-sm text-[#948FAF]">Access your team&apos;s risk dashboard</p>
       </div>
 
       <button
         type="button"
-        onClick={handleGoogleSignIn}
-        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#1C2836] bg-[#121A26] px-4 py-2.5 text-sm font-medium text-[#E7EEF5] transition-colors hover:bg-[#17202C]"
+        onClick={continueWithGoogle}
+        className="flex w-full items-center justify-center gap-3 rounded-md border border-[#211E2C] bg-[#14121C] px-4 py-2.5 text-sm font-medium text-[#F1EDFB] transition-colors hover:bg-[#1B1826]"
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
           <path
@@ -96,18 +108,18 @@ export default function SignInPage() {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-[#1C2836]" />
+          <span className="w-full border-t border-[#211E2C]" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-[#0D131C] px-2 font-mono tracking-widest text-[#4B5768]">or</span>
+          <span className="bg-[#0F0D16] px-2 font-mono tracking-widest text-[#4B4760]">or</span>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(submitCredentials)} className="space-y-4">
         <div className="space-y-1.5">
           <label
             htmlFor="email"
-            className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
+            className="font-mono text-[11px] tracking-widest text-[#6F6B87] uppercase"
           >
             Email
           </label>
@@ -117,7 +129,7 @@ export default function SignInPage() {
             autoComplete="email"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? 'email-error' : undefined}
-            className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+            className="w-full rounded-md border border-[#211E2C] bg-[#0A0910] px-3 py-2 text-sm text-[#F1EDFB] placeholder:text-[#4B4760] focus:border-[#8B7CF6]/60 focus:ring-2 focus:ring-[#8B7CF6]/30 focus:outline-none aria-invalid:border-[#F2555B]"
             placeholder="you@example.com"
             {...register('email')}
           />
@@ -132,7 +144,7 @@ export default function SignInPage() {
           <div className="flex items-center justify-between">
             <label
               htmlFor="password"
-              className="font-mono text-[11px] tracking-widest text-[#6B7A8D] uppercase"
+              className="font-mono text-[11px] tracking-widest text-[#6F6B87] uppercase"
             >
               Password
             </label>
@@ -143,7 +155,7 @@ export default function SignInPage() {
             autoComplete="current-password"
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
-            className="w-full rounded-md border border-[#1C2836] bg-[#0B0F16] px-3 py-2 text-sm text-[#E7EEF5] placeholder:text-[#4B5768] focus:border-[#4FD1C5]/60 focus:ring-2 focus:ring-[#4FD1C5]/30 focus:outline-none aria-invalid:border-[#F2555B]"
+            className="w-full rounded-md border border-[#211E2C] bg-[#0A0910] px-3 py-2 text-sm text-[#F1EDFB] placeholder:text-[#4B4760] focus:border-[#8B7CF6]/60 focus:ring-2 focus:ring-[#8B7CF6]/30 focus:outline-none aria-invalid:border-[#F2555B]"
             placeholder="••••••••"
             {...register('password')}
           />
@@ -157,15 +169,15 @@ export default function SignInPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-md bg-[#4FD1C5] px-4 py-2.5 text-sm font-semibold text-[#06111A] transition-colors hover:bg-[#6EE0D6] disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-md bg-[#A78BFA] px-4 py-2.5 text-sm font-semibold text-[#1B1330] transition-colors hover:bg-[#B7A6FF] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
 
-      <p className="text-center text-sm text-[#8697A8]">
+      <p className="text-center text-sm text-[#948FAF]">
         Don&apos;t have an account?{' '}
-        <Link href="/auth/signup" className="font-medium text-[#4FD1C5] hover:underline">
+        <Link href="/auth/signup" className="font-medium text-[#8B7CF6] hover:underline">
           Create one
         </Link>
       </p>
