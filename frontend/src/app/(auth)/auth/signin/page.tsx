@@ -124,6 +124,7 @@ export default function SignInPage() {
             Email
           </label>
           <input
+            data-testid="email"
             id="email"
             type="email"
             autoComplete="email"
@@ -150,6 +151,7 @@ export default function SignInPage() {
             </label>
           </div>
           <input
+            data-testid="password"
             id="password"
             type="password"
             autoComplete="current-password"
@@ -167,6 +169,7 @@ export default function SignInPage() {
         </div>
 
         <button
+          data-testid="loginBtn"
           type="submit"
           disabled={isSubmitting}
           className="w-full rounded-md bg-[#A78BFA] px-4 py-2.5 text-sm font-semibold text-[#1B1330] transition-colors hover:bg-[#B7A6FF] disabled:cursor-not-allowed disabled:opacity-50"
