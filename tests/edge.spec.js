@@ -23,8 +23,9 @@ test('redirect to login: direct link to team page redirect back to login page', 
     await expect(page.getByTestId('loginBtn')).toBeVisible();
 });
 
-//test that no image gets a fallback - test both those already in place and force an image to error
+//test that image error gets a fallback avatar
 test('fallback avatar: if a member card does not have an image a fallback avatar is present', async ({ page }) => {
+    //intercepts a member card image and aborts it
     await page.route('**/team/thomas-clowes.jpg', route => route.abort());
     await page.goto(`${deployedURL}/auth/signin`);
        
@@ -36,20 +37,22 @@ test('fallback avatar: if a member card does not have an image a fallback avatar
     //redirect to team page
      await page.waitForURL(/\/team/);
 
+    //checks altered member card for fallback avatar
     const card = page.getByTestId('memberCardthomas-clowes');
     await expect(card.getByTestId('fallbackImg')).toBeVisible();
 
 });
 
-//test different image sizes
-
+//test different image sizes to ensure frame crop consistency
+//edge case images
 const edgeImgs = [
     'large-photo.jpg', 'tiny-photo.jpg', 
     'tall-photo.jpg', 'wide-photo.jpg',
 ];
-
+//tests each image
 for(const edgeImg of edgeImgs){
-    test(`member image crops without distorting card with ${edgeImg}`, async ({ page }) => {
+    test(`crop image: member image crops without distorting card with ${edgeImg}`, async ({ page }) => {
+        //intercepts a member card image and fulfills it with a test image
         await page.route('**/team/thomas-clowes.jpg', route => {
             route.fulfill({path: `tests/fixtures/${edgeImg}`});
         });
@@ -64,23 +67,26 @@ for(const edgeImg of edgeImgs){
         //redirect to team page
         await page.waitForURL(/\/team/);
 
+        //checks altered member card for image
         const card = page.getByTestId('memberCardthomas-clowes');
         const frame = await card.getByRole('img').boundingBox();
 
+        //checks that image has been cropped into frame correctly
         expect(frame.width).toBeCloseTo(64, 0);
         expect(frame.height).toBeCloseTo(64, 0);
 
     });
 };
 
-//test different viewports
+//test different common browser viewports
 const viewports = [
     {name: 'mobile', width:360, height:640},
     {name: 'desktop', width:1280, height:720},
 ];
-
+//tests for each viewport
 for (const viewport of viewports){
-    test(`team page renders correctly for ${viewport.name} browser use`, async ({ page }) => {
+    test(`common viewports: team page renders correctly for ${viewport.name} browser use`, async ({ page }) => {
+        //sets brwoser viewport
         await page.setViewportSize({ width: viewport.width, height: viewport.height });
         await page.goto(`${deployedURL}/auth/signin`);
        
@@ -94,17 +100,18 @@ for (const viewport of viewports){
         await page.waitForURL(/\/team/);
 
 
-         // checks that all 5 team cards are present
+         // checks that all 5 team cards are present within site
          const cards = page.getByTestId(/^memberCard/);
          await expect(cards).toHaveCount(5);
 
+         //checks that width scroll is lest than or equal to client width - ensures no overflow
          const scroll = await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth);
          expect(scroll).toBe(true);
     });
 }
 
 // no current team member blurb exceeds significant character limit
-// test will be verfied via uni test in TeamMemberCard.test.tsx
+// test will be verfied via unit test in TeamMemberCard.test.tsx
 
 
 

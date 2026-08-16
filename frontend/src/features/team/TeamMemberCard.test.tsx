@@ -8,7 +8,8 @@ import { it, expect } from 'vitest'
 it('handles a large blurb', () => {
     const bigBlurb = 'blah'.repeat(500)
     render(<TeamMemberCard member={{ id: '1', name : 'Test', role: 'Tester', blurb: bigBlurb}} />)
-    expect(screen.getByTestId('memberBlurb')).toBeInTheDocument()
+    const blurbPre = screen.getByTestId('memberBlurb')
     expect(screen.getByTestId('truncator')).toBeInTheDocument()
+    expect(blurbPre.textContent!.length).toBeLessThan(bigBlurb.length)
 
 })
