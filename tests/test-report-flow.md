@@ -53,7 +53,7 @@
 - **Actual Result:**
 - **Status:** Pass
 - **Notes:**
-- On occasion, test may need to be run a few times to confirm results as E2E runtime lag coudl potentially mess with results due to automated Playwirght actions triggering prior to load of elements or page
+- On occasion, test may need to be run a few times to confirm results as E2E runtime lag could potentially mess with results due to automated Playwirght actions triggering prior to load of elements or page
 - Ensure that the deployed version that is being tested is the most up to date deployed URL as it must reflect the current state of the github code. If run on old deployments it won't reflect current code state.
 - To test Playwright test run: npx playwright test test/flow.spec.js --ui
 - To ensure local .env has correct information setup for testing please input the Testing segment found within .env.example and fill in the necessary fields
