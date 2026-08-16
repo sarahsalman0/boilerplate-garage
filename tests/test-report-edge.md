@@ -11,8 +11,8 @@
 ## Summary
 | Metric | Score |
 |---|---|
-| Test Cases | 10 |
-| Passed | 10 |
+| Test Cases | 6 |
+| Passed | 6 |
 | Failed | |
 | Skipped | |
 | Pass Rate | 100% |
