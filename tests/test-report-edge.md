@@ -111,7 +111,7 @@
 2. Login with valid credentials
 3. Wait for redirect to /team
 4. Assert all 5 member cards are present
-5.Assert that the scroll width is <= client width to establish no horizontal overflow
+5. Assert that the scroll width is <= client width to establish no horizontal overflow
 
 | Viewport | Result |
 |---|---|
@@ -151,6 +151,7 @@
 | | | | | |
 
 ## Notes
+- Playwright was used for testing as it was deemed the best option for E2E testing and because it has UI functionality that allows for users to view test playback of website to see bugs as they occur on screen
 - On occasion, test may need to be run a few times to confirm results as E2E runtime lag could potentially mess with results due to automated Playwirght actions triggering prior to load of elements or page
 - Blurb length edge case was done via Vitest as a Unit Test as all member blurbs within website did not meet threshold of extreme blurb length and passing a test blurb into E2E testing was deemed too difficult and unnecessary for the scope of the test to be achieved. Testing this edge case via Unit Testing was deemed as a more appropriate approach.
 - All images used to test avatar cropping were made using Magick
