@@ -33,9 +33,11 @@ test('happy path: valid login redirects to fully rendered team page', async ({ p
         await expect(card.getByTestId('memberRole')).not.toBeEmpty();
         await expect(card.getByTestId('memberBlurb')).not.toBeEmpty();
 
+        //checks if a the truncator button exists within the card
         const readMore = card.getByTestId('truncator');
         const readMoreCount = await readMore.count();
         
+        //if truncator exists, checks that blurb is being truncator correctly - blurb preview and full blurb after click
         if (readMoreCount > 0){
             const blurbBefore = await card.getByTestId('memberBlurb').innerText();
             await readMore.click();
